@@ -1,17 +1,45 @@
-def towers_of_hanoi
-  arr = [[3,2,1], [], []]
-  complete_array = arr[0].clone
-  complete_array.freeze
-  loop do
-    puts "Which column do you want to select from?"
-    where_from = gets.chomp.to_i - 1
-    puts "Which column do you want to put it on?"
-    where_to = gets.chomp.to_i - 1
-    arr[where_to] << arr[where_from].pop
-    p arr
-    break if arr[2] == complete_array
+class TowerOfHanoi
+  def initialize
+    @towers = [[3, 2, 1], [], []]
+    @size = @towers[0].size
+    run
   end
-  puts "You did it."
-end
 
-towers_of_hanoi
+  def run
+    render_stack
+    until @towers.last.size == @size do
+      puts "Move from where?"
+      from = gets.chomp.to_i - 1
+      puts "Where to?"
+      to = gets.chomp.to_i - 1
+      move(from, to)
+      render_stack
+    end
+    puts "You did it! Congrats."
+  end
+
+  def move(from, to)
+    if @towers[from].empty?
+      puts "That tower's empty."
+    elsif !@towers[to].empty? && @towers[to].last < @towers[from].last
+      puts "That won't fit."
+    else
+      @towers[to] << @towers[from].pop
+    end
+  end
+
+  def render_stack
+    render = ""
+    @towers.each_with_index do |tower, i|
+      render << "Tower ##{i + 1}: "
+      if tower.empty?
+        render << "empty "
+      else
+        tower.each do |num|
+          render << "#{num} "
+        end
+      end
+    end
+    puts render.strip
+  end
+end
