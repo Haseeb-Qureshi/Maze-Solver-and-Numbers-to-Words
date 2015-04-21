@@ -1,4 +1,4 @@
-require 'byebug'
+DIRECTIONS = ['n', 'e', 's', 'w']
 
 class Maze
   def initialize
@@ -10,7 +10,7 @@ class Maze
 
     @dir = "n"
     @coor = init_coordinates
-
+    
     run
   end
 
@@ -27,14 +27,11 @@ class Maze
     until win?(in_front(@coor)) do
       sleep(0.2)
       print_maze
-
       if !is_wall?(in_front(@coor)) && is_wall?(right_hand(@coor))
         step
-
       elsif !is_wall?(right_hand(@coor))
         find_wall
         step
-
       elsif is_wall?(in_front(@coor))
         hit_wall
       end
@@ -42,7 +39,7 @@ class Maze
 
     step
     print_maze
-    puts "Win!"
+    puts "You win!"
   end
 
   def step
@@ -52,30 +49,12 @@ class Maze
 
   def hit_wall
     #turn left
-    case @dir
-    when 'n'
-      @dir = 'w'
-    when 'e'
-      @dir = 'n'
-    when 's'
-      @dir = 'e'
-    when 'w'
-      @dir = 's'
-    end
+    @dir = DIRECTIONS[DIRECTIONS.find_index(@dir) - 1]
   end
 
   def find_wall
     #turn right
-    case @dir
-    when 'n'
-      @dir = 'e'
-    when 'e'
-      @dir = 's'
-    when 's'
-      @dir = 'w'
-    when 'w'
-      @dir = 'n'
-    end
+    @dir = DIRECTIONS[DIRECTIONS.find_index(@dir) + 1]
   end
 
   def right_hand(coord)
@@ -96,32 +75,26 @@ class Maze
     x, y = coord
     case @dir
     when 'n'
-      [x-1,y]
+      [x - 1, y]
     when 'e'
-      [x,y+1]
+      [x, y + 1]
     when 'w'
-      [x,y-1]
+      [x, y - 1]
     when 's'
-      [x+1,y]
+      [x + 1, y]
     end
   end
 
   def is_wall?(coord)
     x, y = coord
-    case @maze[x][y]
-    when ' ' || '@'
-      false
-    else
-      true
-    end
+    return false if @maze[x][y] == ' ' || @maze[x][y] == '@'
+    return true
   end
 
   def win?(coord)
     x,y = coord
     return true if @maze[x][y] == "E"
-
-    false
-
+    return false
   end
 
   def print_maze
