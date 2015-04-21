@@ -1,2 +1,2 @@
 # Day 1's exercises.
-Of particular interest are the Maze Solver, and the number_to_word function.
+Of particular interest are the Maze Solver (maze), the number to words converter (in_words), and the Towers of Hanoi game (ex5.rb). 
