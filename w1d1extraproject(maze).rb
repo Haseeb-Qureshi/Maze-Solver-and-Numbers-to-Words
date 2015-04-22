@@ -49,12 +49,12 @@ class Maze
 
   def hit_wall
     #turn left
-    @dir = DIRECTIONS[DIRECTIONS.find_index(@dir) - 1]
+    @dir = DIRECTIONS.rotate(-1)[DIRECTIONS.find_index(@dir)]
   end
 
   def find_wall
     #turn right
-    @dir = DIRECTIONS[DIRECTIONS.find_index(@dir) + 1]
+    @dir = DIRECTIONS.rotate(1)[DIRECTIONS.find_index(@dir)]
   end
 
   def right_hand(coord)
